@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>石头剪刀布游戏</title>
+	<style>
+		#output {
+			margin-bottom: 20px;
+			padding: 10px;
+			width: 400px;
+			height: 400px;
+			background-color: #eee;
+			border: 1px solid rgb(12, 10, 10);
+			overflow: auto;
+		}
+
+		.btn-action {
+			width: 80px;
+			height: 36px;
+			border-radius: 6px;
+			background-color: lightcyan;
+		}
+	</style>
+</head>
+<body>
+	<div id="output"></div>
+	<div>
+		<button class="btn-action" onclick="handleClick('石头')">石头</button>
+		<button class="btn-action" onclick="handleClick('剪刀')">剪刀</button>
+		<button class="btn-action" onclick="handleClick('布')">布</button>
+	</div>
+
+	<script>
+		function handleClick(action) {
+			const output = document.getElementById('output');
+			console.log(action);
+
+			fetch(`http://${location.host}/game?action=${action}`)
+			.then(res => {
+				return res.text();
+			})
+			.then(text => {
+				output.innerHTML += text + '<br/>';	
+				output.scrollTop =  output.scrollHeight - output.clientHeight;
+			})
+			
+		}
+	</script>
+</body>
+</html>
