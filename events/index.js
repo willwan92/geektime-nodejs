@@ -27,4 +27,4 @@ console.log(EventEmitter.listenerCount(life, 'comfort'));
 console.log(life.listeners('comfort').length);
 
 // 设置事件监听数的最大值
-life.setMaxListeners('comfort');
+life.setMaxListeners(10);
