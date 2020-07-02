@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "glob": "^7.1.6"
+  },
   "devDependencies": {
     "cz-conventional-changelog": "^3.2.0"
   },
