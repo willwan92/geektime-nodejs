@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const querystring = require('querystring');
-const { game } = require('../game.js');
+const { game } = require('../../game.js');
 
 let playerLastAction;
 let repeatCount = 0;
@@ -15,8 +15,9 @@ http
 		const query = querystring.parse(urlObj.query);
 
 		if (urlObj.pathname === '/') {
+			
 			res.writeHead(200);
-			fs.createReadStream(__dirname + '/index.html').pipe(res);
+			fs.createReadStream('../index.html').pipe(res);
 		}
 
 		if (urlObj.pathname === '/game') {
