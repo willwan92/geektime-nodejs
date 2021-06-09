@@ -25,15 +25,72 @@ const data = {
   146582: "19 | HTTP：简单实现一个HTTP服务器"
 }
 
+/**
+ * 检查是否是完成的包，返回第一个完成数据包的包长
+ * @param {*} buffer 
+ * @returns 包长
+ */
+function checkComplete(buffer) {
+  if(buffer.length < 6) {
+    // 因为包头长为6，所以如果包长小于6肯定不是一个完成的数据包
+    return 0;
+  }
+
+  const bodyLength = buffer.readInt32BE(2)
+  return 6 + bodyLength
+}
+
+/**
+ * 把数据编码成二进制数据包
+ * @param {*} param0 
+ * @returns 
+ */
+ function encode({ seq, title }) {
+  const bodyBuffer = Buffer.from(title)
+  
+  const headBuffer = Buffer.alloc(6)
+  headBuffer.writeInt16BE(seq)
+  // 由于分包的时候需要知道一个完整包的包长，一般把数据包的包长写在包头里
+  headBuffer.writeInt32BE(bodyBuffer.length, 2)
+  
+  return Buffer.concat([headBuffer, bodyBuffer])
+}
+
+/**
+ * 解码二进制数据包
+ * @param {*} buffer 
+ * @returns 
+ */
+function decode(buffer) {
+  const seq = buffer.readInt16BE()
+  const id = buffer.readInt32BE(6)
+
+  return { id, seq }
+}
+
+
+/**
+ * 由于接收到的数据包可能是多个包拼接起来的，在接收到数据包之后需要：
+ * 1. 先把数据包按包长切分开
+ * 2. 解包
+ * 3. 根据数据包参数获取对应的章节title
+ * 4. 返回给客户端
+ * 5. 继续处理剩下的数据包
+ */
+let olderBuffer = null
 const server = net.createServer((socket) => {
   console.log('客户端已连接');
-  socket.on('data', (buf) => {
-    setTimeout(() => {
-      const seqBuffer = buf.slice(0, 2)
-      const seq = seqBuffer.readInt16BE()
-      const id = buf.readInt32BE(2)
-      socket.write(`${seq}: ${data[id]}`)
-    }, Math.random() * 1000)
+  let packageLength
+  let package
+  socket.on('data', (buffer) => {
+    olderBuffer && (buffer = Buffer.concat([olderBuffer, buffer]))
+    while(packageLength = checkComplete(buffer)) {
+      package = buffer.slice(0, packageLength)
+      package = decode(package)
+      buffer = buffer.slice(packageLength)
+      socket.write(encode({ seq: package.seq, title: data[package.id] }))
+    }
+    olderBuffer = buffer
   })
 })
 
