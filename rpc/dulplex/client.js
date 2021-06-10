@@ -33,6 +33,7 @@ socket.connect({
 // 发送数据包, TCP协议会把短时间内发的包拼在一起
 for (let seq = 0; seq < 100; seq ++) {
   const id = lessonids[Math.floor(Math.random() * lessonids.length)]
+  console.log({ id, seq });
   socket.write(encode({ id, seq }))
 }
 
@@ -92,12 +93,11 @@ let packageLength
 let package
 socket.on('data', (buffer) => {
   olderBuffer && (buffer = Buffer.concat([olderBuffer, buffer]))
-  while(bufferLength = checkComplete(buffer)) {
-    console.log(bufferLength);
+  while(packageLength = checkComplete(buffer)) {
     package = buffer.slice(0, packageLength)
     package = decode(package)
-    buffer = buffer.slice(packageLength)
     console.log(package);
+    buffer = buffer.slice(packageLength)
   }
   olderBuffer = buffer
  })
