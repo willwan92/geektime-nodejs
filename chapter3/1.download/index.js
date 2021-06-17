@@ -14,6 +14,8 @@ app.use(mount('/', ctx => {
   ctx.body = fs.readFileSync(__dirname + '/source/index.htm', 'utf-8')
 }))
 
-app.listen(3000, () => {
-  console.log('http 服务已启动');
-})
+// app.listen(3000, () => {
+//   console.log('http 服务已启动');
+// })
+
+module.exports = app
