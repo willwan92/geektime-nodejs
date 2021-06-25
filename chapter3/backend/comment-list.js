@@ -9,13 +9,13 @@
  const protocolBuf = require('protocol-buffers')
  const fs = require('fs')
  const createRpc = require('./lib/geeknode-rpc-server')
- const schemas = protocolBuf(fs.readFileSync(`${__dirname}../3.play/schema/comment.proto`))
+ const schemas = protocolBuf(fs.readFileSync(`${__dirname}/../3.play/schema/comment.proto`))
  
  const comments = require('./mockdata/comment')
- const rpc = createRpc(schemas.CommentListRequest, schemas.CommentListResponse)
+ const server = createRpc(schemas.CommentListRequest, schemas.CommentListResponse)
  
- rpc.createServer((request, response) => {
+ server.createServer((request, response) => {
    response.end({ comments })
  }).listen(4001, () => {
-   console.log('rpc server listened: 4002')
+   console.log('rpc server listened: 4001')
  })

@@ -8,7 +8,7 @@
 const protocolBuf = require('protocol-buffers')
 const fs = require('fs')
 const createRpc = require('./lib/geeknode-rpc-server')
-const schemas = protocolBuf(fs.readFileSync(`${__dirname}../3.play/schema/comment.proto`))
+const schemas = protocolBuf(fs.readFileSync(`${__dirname}/../3.play/schema/comment.proto`))
 
 const comments = require('./mockdata/comment')
 const rpc = createRpc(schemas.PraiseRequest, schemas.PraiseResponse)

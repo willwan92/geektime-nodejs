@@ -3,7 +3,7 @@ const mount = require('koa-mount')
 const static = require('koa-static')
 const graphqlHTTP = require('koa-graphql')
 const fs = require('fs')
-const schema = this.require('./schema')
+const schema = require('./schema')
 
 const app = new koa()
 

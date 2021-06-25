@@ -16,7 +16,6 @@ const app = new Koa()
 
 app.use(mount('/static', static(__dirname + '/source/static')))
 app.use(async ctx => {
-  console.log(ctx.query)
   // 检查参数
   if (!ctx.query.columnid) {
     ctx.status = 400
