@@ -36,14 +36,16 @@
 
 ## 待学习技术
 
-- ssr
+- ssr: 项目学习 ***
+- webpack：web全栈之webpack ***
+- typescript: web全栈之vue的10课 TS **
 - vue3.0
 - vite
 
 ## 待补充项目经验
 
-- nodejs/python服务端项目
-- 小程序跨端项目
-- ssr项目
+- ssr项目：web全栈之服务端渲染和vue ssr实战，极客node实战项目之极客时间列表页需求实现
+- nodejs/python服务端项目：web全栈之项目实战（nuxt + eggjs）
+- 小程序跨端项目：慕课网 uni-app 快速入门 从零开始实现新闻资讯类跨端应用
 - vue3.0项目
 
